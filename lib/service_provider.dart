@@ -1,25 +1,18 @@
+import 'package:environment/environment.dart';
+
 import 'app_state.dart';
 import 'http.dart';
 import 'package:flutter/material.dart';
 
-// class ServiceProviders with ChangeNotifier {
-//
-//    HTTPServiceType _httpService;
-//    HTTPServiceType get httpService => _httpService;
-//
-//    void config(AppInitialized state) {
-//
-//
-//      notifyListeners();
-//    }
-//
-// }
-
 /// 提供基础功能服务, 如HTTP请求, 键值存储等
 class ServiceProvider extends StatefulWidget {
   final Widget Function(ServiceProviderState) create;
+  /// 默认的环境, 如果未从缓存获取到, 则使用该设置
+  final Environment defaultEnvironment;
 
-  const ServiceProvider({Key key, @required this.create}) : super(key: key);
+  const ServiceProvider(
+      {Key key, @required this.defaultEnvironment, @required this.create})
+      : super(key: key);
 
   @override
   ServiceProviderState createState() => ServiceProviderState();
@@ -40,7 +33,6 @@ class ServiceProviderState extends State<ServiceProvider> {
       httpService.baseUrl = state.environment.baseUrl;
       httpService.locale = Locale('en_US');
     }
-    // print(state.environment.baseUrl);
   }
 
   @override

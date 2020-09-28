@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'environment.dart';
-import 'system_settings.dart';
-
 import 'app_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,32 +8,18 @@ class AppRepository {
       'com.repository.environment${inProduction ? 'pro' : 'dev'}';
 
   Future<AppInitialized> restoreFromCache() async {
-    AppState appState;
     try {
       final preference = await SharedPreferences.getInstance();
       final jsonString = preference.getString(_storeKey);
       final json = JsonDecoder().convert(jsonString) as Map<String, dynamic>;
-      AppInitialized state;
-      if (inProduction) {
-        final environment = await Environment.initial();
-        state = AppInitialized.fromJson(json, environment: environment);
-      } else {
-        state = AppInitialized.fromJson(json);
-      }
-      appState = state;
+      return AppInitialized.fromJson(json);
     } catch (e) {
-      _clearEnvironment();
+      _clearState();
+      return null;
     }
-    if (appState == null) {
-      final environment = await Environment.initial();
-      final settings = SystemSettings.empty();
-      appState = AppInitialized(
-          environment: environment, systemSettings: settings, token: '');
-    }
-    return appState;
   }
 
-  void _clearEnvironment() async {
+  void _clearState() async {
     final preference = await SharedPreferences.getInstance();
     await preference.remove(_storeKey);
   }

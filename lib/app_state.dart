@@ -8,7 +8,11 @@ class AppUninitialized extends AppState {}
 class AppInitialized extends AppState {
   /// 系统设置, 如声音等
   final SystemSettings systemSettings;
+
+  /// 调试选项, 如日志, 边框等
   final Environment environment;
+
+  /// token
   final String token;
 
   AppInitialized({this.systemSettings, this.environment, this.token});

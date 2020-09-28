@@ -1,3 +1,6 @@
+import 'package:environment/environment.dart';
+import 'package:environment/system_settings.dart';
+
 import 'app_repository.dart';
 import 'service_provider.dart';
 import 'app_event.dart';
@@ -12,7 +15,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   @override
   Stream<AppState> mapEventToState(AppEvent event) async* {
-    print(event);
     if (event is AppStarted && state is AppUninitialized) {
       yield* _mapAppStartedToState();
     }
@@ -40,12 +42,19 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  ///  启动后加载配置文件, 读取缓存等数据
+  ///  启动后加载配置文件, 读取缓存等数据, 如果是生产环境, 直接使用默认设置即可
   Stream<AppState> _mapAppStartedToState() async* {
     AppInitialized state = await appRepository.restoreFromCache();
-
-    /// 初始化
-    serviceProvider.config(state);
+    if (state != null && inProduction) {
+      state.update(environment: serviceProvider.widget.defaultEnvironment);
+    }
+    if (state == null) {
+      final environment = serviceProvider.widget.defaultEnvironment;
+      final settings = SystemSettings.empty();
+      state = AppInitialized(
+          environment: environment, systemSettings: settings, token: '');
+    }
+    serviceProvider.config(state); //更新设置
     //完成后返回app真正的初始状态
     yield state;
   }
