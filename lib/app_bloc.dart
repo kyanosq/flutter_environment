@@ -33,12 +33,14 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   Stream<AppState> _mapAppLoginToState(AppDidLogin event) async* {
     if (state is AppInitialized) {
       yield (state as AppInitialized).update(token: event.token);
+      serviceProvider.config(state);
     }
   }
 
   Stream<AppState> _mapAppLogoutToState() async* {
     if (state is AppInitialized) {
       yield (state as AppInitialized).update(token: '');
+      serviceProvider.config(state);
     }
   }
 

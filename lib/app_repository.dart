@@ -14,12 +14,12 @@ class AppRepository {
       final json = JsonDecoder().convert(jsonString) as Map<String, dynamic>;
       return AppInitialized.fromJson(json);
     } catch (e) {
-      _clearState();
+      await _clearState();
       return null;
     }
   }
 
-  void _clearState() async {
+  Future<void> _clearState() async {
     final preference = await SharedPreferences.getInstance();
     await preference.remove(_storeKey);
   }

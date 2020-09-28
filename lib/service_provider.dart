@@ -28,10 +28,15 @@ class ServiceProviderState extends State<ServiceProvider> {
   void config(AppInitialized state) {
     if (httpService == null) {
       httpService = HTTPService(
-          locale: Locale('en_US'), baseUrl: state.environment.baseUrl);
+          locale: Locale('en_US'),
+          baseUrl: state.environment.baseUrl,
+          logMode: state.environment.logMode,
+          token: state.token);
     } else {
-      httpService.baseUrl = state.environment.baseUrl;
-      httpService.locale = Locale('en_US');
+      httpService.update(baseUrl: state.environment.baseUrl,
+          logMode: state.environment.logMode,
+          locale: Locale('en_US'),
+          token: state.token);
     }
   }
 
