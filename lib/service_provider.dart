@@ -33,7 +33,7 @@ class ServiceProviderState extends State<ServiceProvider> {
           logMode: state.environment.logMode,
           token: state.token);
     } else {
-      httpService.update(baseUrl: state.environment.baseUrl,
+      httpService = httpService.update(baseUrl: state.environment.baseUrl,
           logMode: state.environment.logMode,
           locale: Locale('en_US'),
           token: state.token);
