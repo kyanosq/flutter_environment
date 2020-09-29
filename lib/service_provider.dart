@@ -66,6 +66,6 @@ class _ServiceProvider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ServiceProvider old) {
-    return true;
+    return false;
   }
 }

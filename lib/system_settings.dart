@@ -1,8 +1,12 @@
 import 'language.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'system_settings.g.dart';
 
 enum FontSize { normal, large, veryLarge }
 enum VideoAutoPlayMode { none, wifi, all }
 
+@JsonSerializable(explicitToJson: true)
 class SystemSettings {
   final bool soundEnabled;
   final VideoAutoPlayMode videoAutoPlayMode;
@@ -21,21 +25,10 @@ class SystemSettings {
         fontSize = FontSize.normal,
         language = Language.system;
 
-  factory SystemSettings.fromJson(Map<String, dynamic> json) => SystemSettings(
-        soundEnabled: json['soundEnabled'] as bool,
-        videoAutoPlayMode: json['videoAutoPlayMode'] as VideoAutoPlayMode,
-        fontSize: json['fontSize'] as FontSize,
-        language: json['language'] as Language,
-      );
+  factory SystemSettings.fromJson(Map<String, dynamic> json) =>
+      _$SystemSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'soundEnabled': soundEnabled,
-      'videoAutoPlayMode': videoAutoPlayMode,
-      'fontSize': fontSize,
-      'language': language,
-    };
-  }
+  Map<String, dynamic> toJson() => _$SystemSettingsToJson(this);
 
   SystemSettings update({
     bool soundEnabled,
