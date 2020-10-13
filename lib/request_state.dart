@@ -18,16 +18,3 @@ class RequestStateSuccess extends RequestState {
 
   RequestStateSuccess(this.data);
 }
-
-typedef RequestDataWidgetBuilder = Widget Function(
-    BuildContext context, dynamic data);
-
-typedef RequestLoadingWidgetBuilder = Widget Function(
-    BuildContext context,
-    double progress,
-    );
-
-typedef RequestErrorWidgetBuilder = Widget Function(
-    BuildContext context,
-    dynamic error,
-    );
