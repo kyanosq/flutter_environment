@@ -33,7 +33,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   Stream<AppState> _mapAppLoginToState(AppDidLogin event) async* {
     if (state is AppInitialized) {
       final newState = (state as AppInitialized).update(token: event.token);
-      serviceProvider.config(state);
+      serviceProvider.config(newState);
       appRepository.saveState(newState);
       yield newState;
     }
@@ -42,7 +42,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   Stream<AppState> _mapAppLogoutToState() async* {
     if (state is AppInitialized) {
       final newState = (state as AppInitialized).update(token: '');
-      serviceProvider.config(state);
+      serviceProvider.config(newState);
       appRepository.saveState(newState);
       yield newState;
     }

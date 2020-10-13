@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 /// 提供基础功能服务, 如HTTP请求, 键值存储等
 class ServiceProvider extends StatefulWidget {
   final Widget Function(ServiceProviderState) create;
+
   /// 默认的环境, 如果未从缓存获取到, 则使用该设置
   final Environment defaultEnvironment;
 
@@ -23,21 +24,14 @@ class ServiceProvider extends StatefulWidget {
 }
 
 class ServiceProviderState extends State<ServiceProvider> {
-  HTTPServiceType httpService;
+  HTTPServiceType httpService = HTTPService(
+      locale: Locale('en_US'), baseUrl: '', logMode: LogMode.none, token: '');
 
   void config(AppInitialized state) {
-    if (httpService == null) {
-      httpService = HTTPService(
-          locale: Locale('en_US'),
-          baseUrl: state.environment.baseUrl,
-          logMode: state.environment.logMode,
-          token: state.token);
-    } else {
-      httpService = httpService.update(baseUrl: state.environment.baseUrl,
-          logMode: state.environment.logMode,
-          locale: Locale('en_US'),
-          token: state.token);
-    }
+    httpService.baseUrl = state.environment.baseUrl;
+    httpService.logMode = state.environment.logMode;
+    httpService.locale = Locale('en_US');
+    httpService.token = state.token;
   }
 
   @override

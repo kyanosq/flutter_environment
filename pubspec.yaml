@@ -1,6 +1,6 @@
 name: environment
 description: app env
-version: 0.0.7
+version: 0.0.8
 homepage: "https://github.com/qjshuai/flutter_environment.git"
 
 environment:
