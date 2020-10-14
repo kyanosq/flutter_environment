@@ -70,9 +70,9 @@ class ServiceCenter {
   void update(AppState newState) {
     final oldState = _state;
     _state = newState;
-    if (newState.token != oldState.token ||
-        newState.environment != oldState.environment ||
-        newState.settings.locale != oldState.settings.locale) {
+    if (newState.token != oldState?.token ||
+        newState.environment != oldState?.environment ||
+        newState.settings.locale != oldState?.settings.locale) {
       _httpService = _httpService.update(
           token: _state.token,
           baseUrl: _state.environment.baseUrl,

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-
+import 'package:quiver/strings.dart';
 /*
 system 为跟随系统设置, 字体会动态缩放
 其余选项为app内锁定字体大小
@@ -31,22 +31,29 @@ class Settings extends Equatable {
   @override
   List<Object> get props => [soundEnabled, fontScaleMode, locale];
 
-  factory Settings.fromJson(Map<String, dynamic> json) => Settings(
-        soundEnabled: json['soundEnabled'] as bool,
-        fontScaleMode: FontScaleModeEnumMap.entries
-            .singleWhere((e) => e.value == json['fontScaleMode'],
-                orElse: () => null)
-            ?.key,
-        locale: Locale(
-            json['languageCode'] as String, json['countryCode'] as String),
-      );
+  factory Settings.fromJson(Map<String, dynamic> json) {
+    final languageCode = json['languageCode'] as String;
+    final countryCode = json['countryCode'] as String;
+    Locale locale;
+    if (isNotEmpty(languageCode)) {
+      locale = Locale(languageCode, countryCode);
+    }
+    return Settings(
+      soundEnabled: json['soundEnabled'] as bool,
+      fontScaleMode: FontScaleModeEnumMap.entries
+          .singleWhere((e) => e.value == json['fontScaleMode'],
+          orElse: () => null)
+          ?.key,
+      locale: locale,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'soundEnabled': soundEnabled,
       'fontScaleMode': FontScaleModeEnumMap[fontScaleMode],
-      'languageCode': locale.languageCode,
-      'countryCode': locale.countryCode
+      'languageCode': locale?.languageCode,
+      'countryCode': locale?.countryCode
     };
   }
 
