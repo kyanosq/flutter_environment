@@ -1,54 +1,49 @@
+import 'package:flutter/material.dart';
+
 import 'environment.dart';
-import 'system_settings.dart';
+import 'settings.dart';
 
-abstract class AppState {}
-
-class AppUninitialized extends AppState {}
-
-class AppInitialized extends AppState {
+class AppState {
   /// 系统设置, 如声音等
-  final SystemSettings systemSettings;
+  final Settings settings;
 
-  /// 调试选项, 如日志, 边框等
+  /// 环境设置, 如baseUrl, 调试日志等, 生产环境下仅baseUrl生效
   final Environment environment;
 
   /// token
   final String token;
 
-  AppInitialized({this.systemSettings, this.environment, this.token});
+  AppState({@required this.settings, @required this.environment, this.token});
 
-  factory AppInitialized.fromJson(Map<String, dynamic> json,
-          {Environment environment}) =>
-      AppInitialized(
-        systemSettings: SystemSettings.fromJson(json['systemSettings']),
-        environment: environment ?? Environment.fromJson(json['environment']),
+  factory AppState.fromJson(Map<String, dynamic> json) => AppState(
+        settings: Settings.fromJson(json['settings']),
+        environment: Environment.fromJson(json['environment']),
         token: json['token'],
       );
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'systemSettings': systemSettings.toJson(),
+      'settings': settings.toJson(),
       'environment': environment.toJson(),
       'token': token,
     };
   }
 
-  AppInitialized update({
-    SystemSettings systemSettings,
+  AppState update({
+    Settings settings,
     Environment environment,
     String token,
   }) {
-    return copyWith(
-        systemSettings: systemSettings, environment: environment, token: token);
+    return copyWith(settings: settings, environment: environment, token: token);
   }
 
-  AppInitialized copyWith({
-    SystemSettings systemSettings,
+  AppState copyWith({
+    Settings settings,
     Environment environment,
     String token,
   }) {
-    return AppInitialized(
-      systemSettings: systemSettings ?? this.systemSettings,
+    return AppState(
+      settings: settings ?? this.settings,
       environment: environment ?? this.environment,
       token: token ?? this.token,
     );

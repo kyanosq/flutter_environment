@@ -1,6 +1,7 @@
 import 'http.dart';
 import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
 
 part 'environment.g.dart';
 
@@ -9,7 +10,7 @@ const bool inProduction = const bool.fromEnvironment("dart.vm.product");
 
 ///环境变量设置
 @JsonSerializable()
-class Environment {
+class Environment extends Equatable {
   final String name;
 
   @JsonKey(disallowNullValue: true, required: true)
@@ -29,4 +30,7 @@ class Environment {
       _$EnvironmentFromJson(json);
 
   Map<String, dynamic> toJson() => _$EnvironmentToJson(this);
+
+  @override
+  List<Object> get props => [baseUrl, isDebug, logMode];
 }

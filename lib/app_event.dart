@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'system_settings.dart';
+import 'settings.dart';
 
 abstract class AppEvent {}
 
@@ -7,28 +7,28 @@ class AppStarted extends AppEvent {}
 
 class AppDidEnterBackground extends AppEvent {}
 
-class AppFontSizeDidChange extends AppEvent {
-  final FontSize fontSize;
+class FontScaleModeChanged extends AppEvent {
+  final FontScaleMode fontScaleMode;
 
-  AppFontSizeDidChange(this.fontSize);
+  FontScaleModeChanged(this.fontScaleMode);
 }
 
-class AppDidLogin extends AppEvent {
+class AppLoggedIn extends AppEvent {
   final String token;
 
-  AppDidLogin(this.token);
+  AppLoggedIn(this.token);
 }
 
-class AppDidLogout extends AppEvent {}
+class AppLoggedOut extends AppEvent {}
 
-class AppSoundEnabledDidChange extends AppEvent {
+class AppSoundEnabledChanged extends AppEvent {
   final bool soundEnabled;
 
-  AppSoundEnabledDidChange(this.soundEnabled);
+  AppSoundEnabledChanged(this.soundEnabled);
 }
 
-class AppLocaleDidChange extends AppEvent {
+class AppLocaleChanged extends AppEvent {
   final Locale locale;
 
-  AppLocaleDidChange(this.locale);
+  AppLocaleChanged(this.locale);
 }
