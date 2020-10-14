@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:quiver/strings.dart';
 import 'environment.dart';
 import 'settings.dart';
 
@@ -12,6 +12,8 @@ class AppState {
 
   /// token
   final String token;
+  
+  bool get isLoggedIn => isNotEmpty(token);
 
   AppState({@required this.settings, @required this.environment, this.token});
 

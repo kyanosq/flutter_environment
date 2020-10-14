@@ -33,32 +33,32 @@ class ServiceCenter {
 
   /// 开发环境
   ServiceCenter.development(
-      AppState appState, SharedPreferences sharedPreferences) {
-    _httpService = _httpService.update(
+      AppState appState, PreferenceType preferences) {
+    _httpService = HTTPService(
         locale: appState.settings.locale,
         baseUrl: appState.environment.baseUrl,
         logMode: appState.environment.logMode,
         token: appState.token);
-    _preferences = SharedPreferencesBox(sharedPreferences);
+    _preferences = preferences;
     // database = Da
   }
 
   /// 生产环境
   ServiceCenter.production(
-      AppState appState, SharedPreferences sharedPreferences) {
-    _httpService = _httpService.update(
+      AppState appState, PreferenceType preferences) {
+    _httpService = HTTPService(
         locale: appState.settings.locale,
         baseUrl: appState.environment.baseUrl,
         logMode: appState.environment.logMode,
         token: appState.token);
-    _preferences = SharedPreferencesBox(sharedPreferences);
+    _preferences = preferences;
     // database = Da
   }
 
   /// 集成及单元测试
   ServiceCenter.integrationTest(AppState appState,
       {PreferenceType preferenceType}) {
-    _httpService = _httpService.update(
+    _httpService = HTTPService(
         locale: appState.settings.locale,
         baseUrl: appState.environment.baseUrl,
         logMode: appState.environment.logMode,
