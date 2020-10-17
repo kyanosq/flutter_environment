@@ -14,7 +14,11 @@ class AppRepository {
     try {
       final jsonString = preference.getString(_storeKey);
       final json = JsonDecoder().convert(jsonString) as Map<String, dynamic>;
-      return AppState.fromJson(json);
+      final state = AppState.fromJson(json);
+      if (state.environment.name != (inProduction ? 'production' : 'development')) {
+        return preference.remove(_storeKey).then((value) => null);
+      }
+      return state;
     } catch (e) {
       return preference.remove(_storeKey).then((value) => null);
     }
