@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 import 'package:quiver/iterables.dart';
+
+import 'app_bloc.dart';
+import 'app_event.dart';
 
 abstract class HTTPServiceType {
   Locale locale;
@@ -181,7 +185,7 @@ class AuthorizationInterceptor extends Interceptor {
   @override
   Future onError(DioError err) async {
     if (err?.response?.statusCode == 401) {
-      // EnvironmentManager.logout();
+      GetIt.instance.get<AppBloc>().add(AppLoggedOut());
     }
     return err; //ErrorEnvelope(err);
   }
