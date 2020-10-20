@@ -36,10 +36,10 @@ abstract class PreferenceType {
 }
 
 /// 键值存储默认实现
-class SharedPreferencesBox implements PreferenceType {
+class SharedPreferencesWrapper implements PreferenceType {
   final SharedPreferences preferences;
 
-  SharedPreferencesBox(this.preferences);
+  SharedPreferencesWrapper(this.preferences);
 
   @override
   Future<bool> clear() {

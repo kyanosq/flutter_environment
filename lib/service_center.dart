@@ -1,10 +1,8 @@
-import 'package:environment/preference_type.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'app_state.dart';
-import 'database.dart';
-import 'http.dart';
 import 'package:flutter/material.dart';
+import 'preference_type.dart';
+import 'app_state.dart';
+import 'database_type.dart';
+import 'http.dart';
 
 /// 集成基础功能服务, 如HTTP请求, 键值存储等
 class ServiceCenter {
@@ -18,7 +16,7 @@ class ServiceCenter {
   PreferenceType get preferences => _preferences;
   PreferenceType _preferences;
 
-  /// 数据库存储
+  /// 数据库存储 改为builder形式
   DatabaseType get database => _database;
   DatabaseType _database;
 
@@ -33,31 +31,31 @@ class ServiceCenter {
 
   /// 开发环境
   ServiceCenter.development(
-      AppState appState, PreferenceType preferences) {
+      AppState appState, PreferenceType preferences, DatabaseType database) {
     _httpService = HTTPService(
         locale: appState.settings.locale,
         baseUrl: appState.environment.baseUrl,
         logMode: appState.environment.logMode,
         token: appState.token);
     _preferences = preferences;
-    // database = Da
+    _database = database;
   }
 
   /// 生产环境
   ServiceCenter.production(
-      AppState appState, PreferenceType preferences) {
+      AppState appState, PreferenceType preferences, DatabaseType database) {
     _httpService = HTTPService(
         locale: appState.settings.locale,
         baseUrl: appState.environment.baseUrl,
         logMode: appState.environment.logMode,
         token: appState.token);
     _preferences = preferences;
-    // database = Da
+    _database = database;
   }
 
   /// 集成及单元测试
   ServiceCenter.integrationTest(AppState appState,
-      {PreferenceType preferenceType}) {
+      {PreferenceType preferenceTyp, DatabaseType database}) {
     _httpService = HTTPService(
         locale: appState.settings.locale,
         baseUrl: appState.environment.baseUrl,
@@ -72,7 +70,7 @@ class ServiceCenter {
     _state = newState;
     if (newState.token != oldState?.token ||
         newState.environment != oldState?.environment ||
-        newState.settings.locale != oldState?.settings.locale) {
+        newState.settings.locale != oldState?.settings?.locale) {
       _httpService = _httpService.update(
           token: _state.token,
           baseUrl: _state.environment.baseUrl,
