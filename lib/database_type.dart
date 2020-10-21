@@ -18,15 +18,10 @@ abstract class DatabaseType extends DatabaseExecutor {
 }
 
 /// 数据库默认实现
-class DatabaseBox implements DatabaseType {
+class DatabaseWrapper implements DatabaseType {
   final Database database;
 
-  // Future<Database> _makeDatabase() async {
-  //   final path = await getDatabasesPath();
-  //   return openDatabase(path);
-  // }
-
-  DatabaseBox(this.database);
+  DatabaseWrapper(this.database);
 
   @override
   Batch batch() => database.batch();

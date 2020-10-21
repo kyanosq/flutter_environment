@@ -1,6 +1,8 @@
 
 abstract class RequestState {}
 
+class RequestStateNone extends RequestState {}
+
 class RequestStateRequesting extends RequestState {
   final double progress;
 
